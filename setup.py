@@ -15,11 +15,12 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
-    # TODO: put package requirements here
+    "redis==2.10.3",
+    "wheel==0.23.0"
 ]
 
 test_requirements = [
-    # TODO: put package test requirements here
+    "tox"
 ]
 
 setup(

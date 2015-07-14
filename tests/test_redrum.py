@@ -10,16 +10,17 @@ Tests for `redrum` module.
 
 import unittest
 
-from redrum import redrum
+from redrum.connections import connection
 
 
-class TestRedrum(unittest.TestCase):
+class TestConnectionManager(unittest.TestCase):
 
     def setUp(self):
         pass
 
-    def test_something(self):
-        pass
+    def test_open_connection(self):
+        with connection('default') as conn:
+            conn.set('mykey', 'myvalue')
 
     def tearDown(self):
         pass
