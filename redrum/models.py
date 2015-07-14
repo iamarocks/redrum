@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-from util import redis
+from connections import connection
 
 
 class DictionaryModel(object):
@@ -58,7 +58,7 @@ class DictionaryModel(object):
         :return: dictionary of attributes
         """
         read_key = self.get_cache_key(object_key)
-        with redis.read_connection(self._cache_db) as conn:
+        with connection(self._cache_db) as conn:
             raw_data = conn.get(read_key)
             data_dict = json.loads(raw_data)
             return self.from_dict(data_dict)
@@ -77,7 +77,7 @@ class DictionaryModel(object):
         else:
             expiration_seconds = None
 
-        with redis.write_connection(self._cache_db) as conn:
+        with connection(self._cache_db) as conn:
             if expiration_seconds is None:
                 conn.set(write_key, self.serialize())
             else:
@@ -90,5 +90,5 @@ class DictionaryModel(object):
         :return: True on success
         """
         object_key = getattr(self, self._object_key)
-        with redis.write_connection(self._cache_db) as conn:
+        with connection(self._cache_db) as conn:
             conn.delete(object_key)
